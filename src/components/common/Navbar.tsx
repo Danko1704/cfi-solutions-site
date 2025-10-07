@@ -1,0 +1,114 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+
+const NAV_LINKS = [
+  { label: "Home", href: "/" },
+  { label: "Services", href: "#services" },
+  { label: "Industries", href: "#industries" },
+  { label: "About", href: "#about" },
+  { label: "Contact", href: "#contact" },
+];
+
+export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const lastY = useRef(0);
+
+  // sombra/blur leve
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Ocultar por dirección (headroom simple)
+  useEffect(() => {
+    const onScrollDir = () => {
+      const y = window.scrollY;
+      const goingDown = y > lastY.current + 2;
+      const goingUp = y < lastY.current - 2;
+
+      let nextHidden = hidden;
+      if (y <= 80) nextHidden = false;       // visible arriba
+      else if (goingDown) nextHidden = true; // bajar => oculto
+      else if (goingUp) nextHidden = false;  // subir => muestro
+
+      lastY.current = y;
+      if (nextHidden !== hidden) setHidden(nextHidden);
+    };
+    onScrollDir();
+    window.addEventListener("scroll", onScrollDir, { passive: true });
+    return () => window.removeEventListener("scroll", onScrollDir);
+  }, [hidden]);
+
+  return (
+    <header
+      className={[
+        "fixed inset-x-0 top-0 z-50 transform-gpu transition-transform duration-200",
+        hidden ? "-translate-y-full" : "translate-y-0",
+      ].join(" ")}
+    >
+      <div
+        className={[
+          "absolute inset-0",
+          scrolled
+            ? "bg-black/90 backdrop-blur-md shadow-lg border-b border-white/10"
+            : "bg-black",
+        ].join(" ")}
+      />
+      <nav className="relative mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 text-white">
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            src="/images/logo-cfi.png"
+            alt="CFI Solutions Logo"
+            width={110}
+            height={40}
+            priority
+            className="object-contain select-none pointer-events-none"
+          />
+          <span className="ml-2 text-xs text-[#899398]">Consulting & Tech Support</span>
+        </Link>
+
+        <div className="hidden md:flex items-center gap-1">
+          {NAV_LINKS.map(({ label, href }) => (
+            <NavItem key={href} href={href}>{label}</NavItem>
+          ))}
+          <Link
+            href="#contact"
+            className="ml-2 inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold bg-white text-[#0B1F38] hover:opacity-90 transition"
+          >
+            Get in touch
+          </Link>
+        </div>
+        <div className="md:hidden" />
+      </nav>
+    </header>
+  );
+}
+
+function NavItem({ href, children }: { href: string; children: React.ReactNode }) {
+  const pathname = usePathname();
+  const isHashLink = href.startsWith("#");
+  const isActive = !isHashLink && href === pathname;
+
+  return (
+    <Link
+      href={href}
+      className="group relative px-3 py-2 text-sm font-medium text-[#EAEAEA] hover:text-white transition"
+    >
+      <span className="relative z-10">{children}</span>
+      <span
+        className={[
+          "pointer-events-none absolute left-2 right-2 -bottom-0.5 h-[2px] origin-left rounded-full",
+          "bg-white/90 transition-transform duration-300",
+          isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100",
+        ].join(" ")}
+      />
+    </Link>
+  );
+}
