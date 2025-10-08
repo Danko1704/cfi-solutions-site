@@ -16,7 +16,7 @@ const services: ServiceItem[] = [
   {
     image: "/images/services/implementations.jpg",
     title: "Implementations",
-    desc: "Diseño e implementación end-to-end de 3DEXPERIENCE y DELMIA Apriso con foco en time-to-value.",
+    desc: "End-to-end design and implementation of 3DEXPERIENCE and DELMIA Apriso with a focus on time-to-value.",
     bullets: [
       "Arquitectura & Blueprint",
       "Configuración & Extensiones",
@@ -26,7 +26,7 @@ const services: ServiceItem[] = [
   {
     image: "/images/services/integrations.jpg",
     title: "Integrations",
-    desc: "Integraciones con PLM/ERP/MES, conectividad de planta (shop-floor) y trazabilidad completa.",
+    desc: "Integrations with PLM/ERP/MES systems, shop-floor connectivity, and full traceability.",
     bullets: [
       "SAP / Oracle / REST",
       "OPC / MQTT / IoT",
@@ -36,7 +36,7 @@ const services: ServiceItem[] = [
   {
     image: "/images/services/technical-support.jpg",
     title: "Technical Support",
-    desc: "Soporte correctivo y evolutivo, monitoreo y optimización de rendimiento en operación.",
+    desc: "Corrective and adaptive support, performance monitoring, and operational optimization.",
     bullets: ["SLA & On-call", "Troubleshooting & Fixes", "Performance Tuning"],
   },
 ];
@@ -65,8 +65,8 @@ export default function Services() {
             Services
           </h2>
           <p className="mt-3 text-white/85">
-            Consultoría estratégica y soporte técnico para acelerar la adopción
-            de 3DEXPERIENCE y DELMIA Apriso.
+            Empowering companies through strategic consulting and technical
+            support for faster 3DEXPERIENCE and DELMIA Apriso adoption.
           </p>
         </motion.div>
 

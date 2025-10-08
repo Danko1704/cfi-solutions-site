@@ -96,8 +96,9 @@ export default function Hero() {
           className="mt-4 max-w-2xl text-base leading-relaxed text-white/85 md:text-lg"
           style={{ fontFamily: "Open Sans, ui-sans-serif, system-ui" }}
         >
-          Implementaciones, integraciones y soporte técnico con foco en resultados:
-          rendimiento en planta, trazabilidad y tiempos de despliegue reducidos.
+          Implementations, integrations, and technical support focused on
+          results — enhanced performance, full traceability, and reduced
+          deployment times.
         </motion.p>
 
         {/* CTAs */}
@@ -112,7 +113,9 @@ export default function Hero() {
             className="group rounded-2xl bg-white/90 px-5 py-3 text-sm font-semibold text-[#0B1F38] shadow-lg backdrop-blur transition hover:bg-white"
           >
             Discover Our Services
-            <span className="ml-2 inline-block transition group-hover:translate-x-0.5">→</span>
+            <span className="ml-2 inline-block transition group-hover:translate-x-0.5">
+              →
+            </span>
           </Link>
 
           <Link
