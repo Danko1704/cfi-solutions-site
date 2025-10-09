@@ -1,4 +1,7 @@
 import { Hero, Industries, Services } from "@/components/sections";
+import About from "@/components/sections/About";
+import ContactSection from "@/components/sections/Contact";
+import IntegrationsSection from "@/components/sections/IntegrationsSection";
 
 export default function HomePage() {
   return (
@@ -6,6 +9,9 @@ export default function HomePage() {
       <Hero />
       <Services />
       <Industries />
+      <About />
+      <IntegrationsSection />
+      <ContactSection />
     </main>
   );
 }

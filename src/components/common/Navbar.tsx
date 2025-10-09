@@ -64,7 +64,7 @@ export default function Navbar() {
       <nav className="relative mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 text-white">
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src="/images/logo-cfi.png"
+            src="/images/logo-cfi-negative.png"
             alt="CFI Solutions Logo"
             width={110}
             height={40}
