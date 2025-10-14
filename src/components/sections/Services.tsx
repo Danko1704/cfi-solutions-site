@@ -78,7 +78,7 @@ export default function Services() {
 
         <div className="mt-14 grid grid-cols-2 gap-6 sm:grid-cols-4">
           {[
-            ["+8", "Años de experiencia"],
+            ["+15", "Years of experience"],
             ["24/7", "On-call support"],
             ["<90d", "Time-to-value"],
             ["99.9%", "Uptime objetivo"],

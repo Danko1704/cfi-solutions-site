@@ -44,8 +44,7 @@ export async function POST(req: Request) {
       return NextResponse.json({
         ok: true,
         simulated: true,
-        note:
-          "RESEND_API_KEY not set. Email sending was skipped (simulated response).",
+        note: "RESEND_API_KEY not set. Email sending was skipped (simulated response).",
       });
     }
 
@@ -54,8 +53,8 @@ export async function POST(req: Request) {
 
     // Envío real
     const result = await resend.emails.send({
-      from: "CFI Solutions <no-reply@cfi-solutions.mx>", // requiere dominio verificado en Resend
-      to: ["hello@cfi-solutions.mx"],
+      from: "onboarding@resend.dev",
+      to: [process.env.CONTACT_TO ?? "ogamez@xdinnovation.com"],
       subject: `New contact: ${topic || "General"}`,
       replyTo: email,
       text:

@@ -1,7 +1,7 @@
 // src/components/sections/Contact.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Mail,
   Phone,
@@ -15,46 +15,149 @@ import {
   Globe,
 } from "lucide-react";
 
+type FormState = {
+  name: string;
+  email: string;
+  message: string;
+  org: string;
+  phone: string;
+  topic: string;
+  consent: boolean;
+  company: string; // honeypot
+};
+type FormErrors = Partial<Record<keyof FormState, string>>;
+const MAX_MESSAGE = 300;
+
 export default function ContactSection() {
   const [status, setStatus] = useState<
     "idle" | "loading" | "success" | "error"
   >("idle");
-  const [message, setMessage] = useState<string>("");
+  const [statusMsg, setStatusMsg] = useState<string>("");
+
+  // form state (manteniendo el layout original)
+  const [values, setValues] = useState<FormState>({
+    name: "",
+    email: "",
+    message: "",
+    org: "",
+    phone: "",
+    topic: "",
+    consent: false,
+    company: "",
+  });
+  const [touched, setTouched] = useState<
+    Partial<Record<keyof FormState, boolean>>
+  >({});
+  const [errors, setErrors] = useState<FormErrors>({});
+
+  // validación cliente (simple y clara)
+  function validate(v: FormState): FormErrors {
+    const e: FormErrors = {};
+    if (!v.name.trim()) e.name = "Name is required.";
+    if (!v.email.trim()) e.email = "Email is required.";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email))
+      e.email = "Enter a valid email.";
+    if (!v.message.trim()) e.message = "Message is required.";
+    else if (v.message.length > MAX_MESSAGE)
+      e.message = `Max ${MAX_MESSAGE} characters.`;
+    if (!v.consent) e.consent = "You must accept the consent.";
+    return e;
+  }
+
+  useEffect(() => {
+    setErrors(validate(values));
+  }, [values]);
+
+  function setValue<K extends keyof FormState>(key: K, val: FormState[K]) {
+    setValues((v) => ({ ...v, [key]: val }));
+  }
+  function onBlur<K extends keyof FormState>(key: K) {
+    setTouched((t) => ({ ...t, [key]: true }));
+  }
+  function inputClass(key: keyof FormState) {
+    const base = "field";
+    const isError = touched[key] && errors[key];
+    return `${base} ${isError ? "border-red-500 focus:border-red-400" : ""}`;
+  }
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus("loading");
-    setMessage("");
+    setStatusMsg("");
 
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-    // Honeypot (typed: FormDataEntryValue can be string | File | null)
-    const hp = formData.get("company");
-    if (typeof hp === "string" && hp.trim().length > 0) {
+    // marcar campos principales como tocados
+    setTouched((t) => ({
+      ...t,
+      name: true,
+      email: true,
+      message: true,
+      consent: true,
+    }));
+    const currentErrors = validate(values);
+
+    // honeypot (si está lleno, hacemos “éxito silencioso”)
+    if (values.company.trim()) {
       setStatus("success");
-      setMessage("Thanks! (silent discard)");
-      form.reset();
+      setStatusMsg("Thanks!");
+      (e.currentTarget as HTMLFormElement).reset();
+      setValues({
+        name: "",
+        email: "",
+        message: "",
+        org: "",
+        phone: "",
+        topic: "",
+        consent: false,
+        company: "",
+      });
+      setTouched({});
       return;
     }
 
-    const payload = Object.fromEntries(formData.entries());
+    if (Object.keys(currentErrors).length) {
+      setErrors(currentErrors);
+      setStatus("error");
+      setStatusMsg("Please fix the errors and try again.");
+      return;
+    }
 
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(values),
       });
-      if (!res.ok) throw new Error("Request failed");
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok || json?.ok === false) {
+        const detail = Array.isArray(json?.errors)
+          ? json.errors.join(", ")
+          : json?.error;
+        throw new Error(detail || "Request failed");
+      }
+
       setStatus("success");
-      setMessage("Message sent successfully. We'll get back to you shortly.");
-      form.reset();
-    } catch (err) {
-      console.error("Contact form error:", err);
+      setStatusMsg("Message sent successfully. We'll get back to you shortly.");
+      (e.currentTarget as HTMLFormElement).reset();
+      setValues({
+        name: "",
+        email: "",
+        message: "",
+        org: "",
+        phone: "",
+        topic: "",
+        consent: false,
+        company: "",
+      });
+      setTouched({});
+    } catch (err: unknown) {
+      const msg =
+        err instanceof Error
+          ? err.message
+          : typeof err === "string"
+          ? err
+          : "We couldn't send your message. Please try again.";
       setStatus("error");
-      setMessage(
-        "We couldn't send your message. Please try again or email us directly."
-      );
+      setStatusMsg(msg);
     }
   }
 
@@ -63,17 +166,14 @@ export default function ContactSection() {
       id="contact"
       className="relative py-14 lg:py-20 overflow-hidden -mt-20 lg:-mt-24 border-t border-white/10"
     >
-      {/* Subtle top divider */}
+      {/* divider y fondo: igual que tu diseño */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-
-      {/* Background gradient adjusted to avoid hard cut */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -top-60 left-1/2 h-[32rem] w-[32rem] -translate-x-1/2 rounded-full bg-[#899398]/15 blur-3xl" />
         <svg
           className="absolute inset-x-0 bottom-[-1px]"
           viewBox="0 0 1440 120"
           fill="none"
-          xmlns="http://www.w3.org/2000/svg"
           aria-hidden
         >
           <path
@@ -84,6 +184,7 @@ export default function ContactSection() {
       </div>
 
       <div className="container mx-auto px-4">
+        {/* header igual */}
         <header className="mx-auto max-w-3xl text-center">
           <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs uppercase tracking-widest text-white/70">
             <ShieldCheck className="h-3.5 w-3.5" /> Trusted contact
@@ -100,6 +201,7 @@ export default function ContactSection() {
         </header>
 
         <div className="mt-8 lg:mt-10 grid grid-cols-1 items-start gap-6 md:grid-cols-5">
+          {/* columna de tarjetas, intacta */}
           <div className="md:col-span-2 space-y-6">
             <InfoCard
               icon={<Mail className="h-5 w-5" />}
@@ -110,7 +212,7 @@ export default function ContactSection() {
                   href="mailto:hello@cfi-solutions.mx"
                   className="underline decoration-white/20 underline-offset-4 hover:decoration-white/40"
                 >
-                  hello@cfi-solutions.mx
+                  Htijerina@cloudforgeitsolutions.com
                 </a>
               }
             />
@@ -123,7 +225,7 @@ export default function ContactSection() {
                   href="tel:+528121234567"
                   className="underline decoration-white/20 underline-offset-4 hover:decoration-white/40"
                 >
-                  +52 81 2123 4567
+                  +52 81 2646 3740
                 </a>
               }
             />
@@ -131,7 +233,12 @@ export default function ContactSection() {
               icon={<MapPin className="h-5 w-5" />}
               title="Office"
               subtitle="Monterrey, Nuevo León, MX"
-              content={<span>Av. Empresa 123, Piso 4 — 64000</span>}
+              content={
+                <span>
+                  Valle del Mirador 603 Col. Mirador de la silla, Guadalupe,
+                  Nuevo León, 67176, Mexico
+                </span>
+              }
             />
             <InfoCard
               icon={<Clock className="h-5 w-5" />}
@@ -141,6 +248,7 @@ export default function ContactSection() {
             />
           </div>
 
+          {/* formulario con los mismos estilos + errores por campo */}
           <div className="md:col-span-3">
             <div className="relative rounded-2xl border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur-md md:p-8">
               <div className="absolute inset-0 -z-10 rounded-2xl bg-gradient-to-tr from-white/10 to-transparent" />
@@ -150,6 +258,7 @@ export default function ContactSection() {
                 aria-describedby="formStatus"
                 noValidate
               >
+                {/* honeypot */}
                 <div className="hidden">
                   <label htmlFor="company">Company</label>
                   <input
@@ -157,6 +266,8 @@ export default function ContactSection() {
                     name="company"
                     type="text"
                     autoComplete="organization"
+                    value={values.company}
+                    onChange={(e) => setValue("company", e.target.value)}
                   />
                 </div>
 
@@ -165,21 +276,44 @@ export default function ContactSection() {
                     <input
                       id="name"
                       name="name"
-                      required
-                      autoComplete="name"
                       placeholder="Jane Doe"
-                      className="field"
+                      className={inputClass("name")}
+                      value={values.name}
+                      onChange={(e) => setValue("name", e.target.value)}
+                      onBlur={() => onBlur("name")}
+                      aria-invalid={!!(touched.name && errors.name)}
+                      aria-describedby={
+                        touched.name && errors.name ? "error-name" : undefined
+                      }
+                    />
+                    <FieldError
+                      id="error-name"
+                      show={!!(touched.name && errors.name)}
+                      text={errors.name}
                     />
                   </Field>
+
                   <Field label="Work email" htmlFor="email">
                     <input
                       id="email"
                       name="email"
                       type="email"
-                      required
-                      autoComplete="email"
                       placeholder="jane@company.com"
-                      className="field"
+                      className={inputClass("email")}
+                      value={values.email}
+                      onChange={(e) => setValue("email", e.target.value)}
+                      onBlur={() => onBlur("email")}
+                      aria-invalid={!!(touched.email && errors.email)}
+                      aria-describedby={
+                        touched.email && errors.email
+                          ? "error-email"
+                          : undefined
+                      }
+                    />
+                    <FieldError
+                      id="error-email"
+                      show={!!(touched.email && errors.email)}
+                      text={errors.email}
                     />
                   </Field>
                 </div>
@@ -190,7 +324,10 @@ export default function ContactSection() {
                       id="org"
                       name="org"
                       placeholder="Company LLC"
-                      className="field"
+                      className={inputClass("org")}
+                      value={values.org}
+                      onChange={(e) => setValue("org", e.target.value)}
+                      onBlur={() => onBlur("org")}
                     />
                   </Field>
                   <Field label="Phone" htmlFor="phone">
@@ -199,13 +336,24 @@ export default function ContactSection() {
                       name="phone"
                       inputMode="tel"
                       placeholder="+52 81 0000 0000"
-                      className="field"
+                      className={inputClass("phone")}
+                      value={values.phone}
+                      onChange={(e) => setValue("phone", e.target.value)}
+                      onBlur={() => onBlur("phone")}
                     />
                   </Field>
                 </div>
 
                 <Field label="Topic" htmlFor="topic">
-                  <select id="topic" name="topic" className="field">
+                  <select
+                    id="topic"
+                    name="topic"
+                    className={inputClass("topic") + " bg-white text-[#0B1F38]"}
+                    value={values.topic}
+                    onChange={(e) => setValue("topic", e.target.value)}
+                    onBlur={() => onBlur("topic")}
+                  >
+                    <option value="">Select…</option>
                     <option>3DEXPERIENCE</option>
                     <option>DELMIA Apriso</option>
                     <option>CATIA</option>
@@ -220,11 +368,36 @@ export default function ContactSection() {
                   <textarea
                     id="message"
                     name="message"
-                    required
                     rows={5}
                     placeholder="Share context, timelines, and goals…"
-                    className="field resize-y"
+                    className={inputClass("message") + " resize-y"}
+                    value={values.message}
+                    onChange={(e) =>
+                      setValue("message", e.target.value.slice(0, MAX_MESSAGE))
+                    }
+                    onBlur={() => onBlur("message")}
+                    maxLength={MAX_MESSAGE}
+                    aria-invalid={!!(touched.message && errors.message)}
+                    aria-describedby={
+                      touched.message && errors.message
+                        ? "error-message"
+                        : "message-hint"
+                    }
                   />
+                  <div className="mt-1 flex items-center justify-between text-xs">
+                    {touched.message && errors.message ? (
+                      <p id="error-message" className="text-rose-300">
+                        {errors.message}
+                      </p>
+                    ) : (
+                      <p id="message-hint" className="text-white/60">
+                        Up to {MAX_MESSAGE} characters.
+                      </p>
+                    )}
+                    <span className="text-white/60">
+                      {values.message.length}/{MAX_MESSAGE}
+                    </span>
+                  </div>
                 </Field>
 
                 <div className="flex items-start gap-3">
@@ -232,14 +405,31 @@ export default function ContactSection() {
                     id="consent"
                     name="consent"
                     type="checkbox"
-                    required
-                    className="mt-1 h-4 w-4 rounded border-white/20 bg-transparent"
+                    className={`mt-1 h-4 w-4 rounded bg-transparent ${
+                      touched.consent && errors.consent
+                        ? "border-red-500"
+                        : "border-white/20"
+                    }`}
+                    checked={values.consent}
+                    onChange={(e) => setValue("consent", e.target.checked)}
+                    onBlur={() => onBlur("consent")}
+                    aria-invalid={!!(touched.consent && errors.consent)}
+                    aria-describedby={
+                      touched.consent && errors.consent
+                        ? "error-consent"
+                        : undefined
+                    }
                   />
                   <label htmlFor="consent" className="text-sm text-white/70">
                     I agree to the processing of my data for the purpose of
                     responding to this inquiry.
                   </label>
                 </div>
+                <FieldError
+                  id="error-consent"
+                  show={!!(touched.consent && errors.consent)}
+                  text={errors.consent}
+                />
 
                 <div className="mt-3 rounded-lg border border-white/10 p-3 text-xs text-white/50">
                   <p className="flex items-center gap-2">
@@ -276,12 +466,12 @@ export default function ContactSection() {
                 >
                   {status === "success" && (
                     <p className="inline-flex items-center gap-2 text-emerald-300">
-                      <CheckCircle2 className="h-4 w-4" /> {message}
+                      <CheckCircle2 className="h-4 w-4" /> {statusMsg}
                     </p>
                   )}
                   {status === "error" && (
                     <p className="inline-flex items-center gap-2 text-rose-300">
-                      <AlertCircle className="h-4 w-4" /> {message}
+                      <AlertCircle className="h-4 w-4" /> {statusMsg}
                     </p>
                   )}
                 </div>
@@ -290,19 +480,23 @@ export default function ContactSection() {
           </div>
         </div>
 
+        {/* mapa y tarjetas: igual */}
         <div
           id="map"
           className="mt-10 lg:mt-12 grid grid-cols-1 gap-6 md:grid-cols-5"
         >
+          {/* 🗺️ Google Map */}
           <div className="md:col-span-3 overflow-hidden rounded-2xl border border-white/10">
             <iframe
               title="CFI Solutions Office Map"
               className="h-[360px] w-full"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              src={`https://www.google.com/maps?q=Monterrey%20Nuevo%20Le%C3%B3n&output=embed`}
+              src={`https://www.google.com/maps?q=Valle%20del%20Mirador%20603%20Guadalupe%20Nuevo%20Le%C3%B3n%2067176%20Mexico&output=embed`}
             />
           </div>
+
+          {/* 🏢 Contact Info */}
           <div className="md:col-span-2 grid content-between gap-6">
             <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
               <div className="flex items-center gap-3">
@@ -310,9 +504,29 @@ export default function ContactSection() {
                 <h3 className="text-lg font-semibold">CFI Solutions — HQ</h3>
               </div>
               <ul className="mt-4 space-y-2 text-sm text-white/70">
-                <li>Av. Empresa 123, Piso 4</li>
-                <li>Centro, Monterrey, N.L. 64000</li>
-                <li>Mexico</li>
+                <li>Valle del Mirador 603</li>
+                <li>Col. Mirador de la Silla, Guadalupe, Nuevo León</li>
+                <li>67176, Mexico</li>
+              </ul>
+              <ul className="mt-4 space-y-2 text-sm text-white/70">
+                <li>
+                  <strong>Email:</strong>{" "}
+                  <a
+                    href="mailto:Htijerina@cloudforgeitsolutions.com"
+                    className="text-white/90 hover:text-white transition"
+                  >
+                    Htijerina@cloudforgeitsolutions.com
+                  </a>
+                </li>
+                <li>
+                  <strong>Phone:</strong>{" "}
+                  <a
+                    href="tel:+528126463740"
+                    className="text-white/90 hover:text-white transition"
+                  >
+                    +52 81 2646 3740
+                  </a>
+                </li>
               </ul>
               <div className="mt-4 flex flex-wrap gap-2 text-xs text-white/50">
                 <span className="rounded-full border border-white/10 px-2 py-1">
@@ -323,9 +537,11 @@ export default function ContactSection() {
                 </span>
               </div>
             </div>
+
+            {/* ☎️ Call to Action */}
             <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-sm text-white/70">
               <p>
-                Prefer a call? Book a 15‑min intro and we will discuss your use
+                Prefer a call? Book a 15-min intro and we’ll discuss your use
                 case, timeline, and architecture options.
               </p>
               <div className="mt-4">
@@ -341,6 +557,7 @@ export default function ContactSection() {
         </div>
       </div>
 
+      {/* misma utilidad de estilos */}
       <style jsx global>{`
         .field {
           @apply w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white placeholder-white/40 outline-none backdrop-blur-md transition focus:border-white/30;
@@ -360,12 +577,29 @@ function Field({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col gap-2 mb-4">
+    <div className="flex flex-col gap-2 mb-1">
       <label htmlFor={htmlFor} className="text-sm text-white/80">
         {label}
       </label>
       {children}
     </div>
+  );
+}
+
+function FieldError({
+  id,
+  show,
+  text,
+}: {
+  id: string;
+  show: boolean;
+  text?: string;
+}) {
+  if (!show || !text) return null;
+  return (
+    <p id={id} className="mt-1 text-sm text-rose-300">
+      {text}
+    </p>
   );
 }
 

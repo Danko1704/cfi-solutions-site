@@ -106,17 +106,20 @@ export default function Footer() {
               className="flex items-center gap-2 hover:text-white transition"
             >
               <Mail size={16} className="text-[#00BFFF]" />{" "}
-              hello@cfi-solutions.mx
+              Htijerina@cloudforgeitsolutions.com
             </a>
             <a
               href="tel:+528121234567"
               className="flex items-center gap-2 hover:text-white transition"
             >
-              <Phone size={16} className="text-[#00BFFF]" /> +52 81 2123 4567
+              <Phone size={16} className="text-[#00BFFF]" /> +52 81 2646 3740
             </a>
             <p className="flex items-start gap-2">
               <MapPin size={16} className="mt-0.5 text-[#00BFFF]" />
-              <span>Monterrey, Nuevo León, MX</span>
+              <span>
+                Valle del Mirador 603 Col. Mirador de la silla, Guadalupe, Nuevo
+                León, 67176, Mexico
+              </span>
             </p>
           </address>
         </div>
