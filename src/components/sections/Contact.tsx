@@ -14,6 +14,7 @@ import {
   Building2,
   Globe,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 type FormState = {
   name: string;
@@ -33,6 +34,7 @@ export default function ContactSection() {
     "idle" | "loading" | "success" | "error"
   >("idle");
   const [statusMsg, setStatusMsg] = useState<string>("");
+  const t = useTranslations("Contact");
 
   // form state (manteniendo el layout original)
   const [values, setValues] = useState<FormState>({
@@ -118,7 +120,7 @@ export default function ContactSection() {
     if (Object.keys(currentErrors).length) {
       setErrors(currentErrors);
       setStatus("error");
-      setStatusMsg("Please fix the errors and try again.");
+      setStatusMsg(t("form.error"));
       return;
     }
 
@@ -137,9 +139,9 @@ export default function ContactSection() {
       }
 
       setStatus("success");
-      setStatusMsg("Message sent successfully. We'll get back to you shortly.");
-      form.reset();
-      (e.currentTarget as HTMLFormElement).reset();
+      setStatusMsg(t("form.success"));
+      form?.reset();
+      e.currentTarget?.reset?.();
       setValues({
         name: "",
         email: "",
@@ -189,17 +191,12 @@ export default function ContactSection() {
         {/* header igual */}
         <header className="mx-auto max-w-3xl text-center">
           <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs uppercase tracking-widest text-white/70">
-            <ShieldCheck className="h-3.5 w-3.5" /> Trusted contact
+            <ShieldCheck className="h-3.5 w-3.5" /> {t("badge")}
           </span>
           <h2 className="mt-4 text-4xl font-semibold leading-tight text-white md:text-5xl">
-            Let´s build your{" "}
-            <span className="text-[#7BDFF2]">digital manufacturing</span>{" "}
-            roadmap
+            {t("title")}
           </h2>
-          <p className="mt-3 text-white/70">
-            Tell us about your 3DEXPERIENCE, DELMIA Apriso, CATIA or integration
-            needs. We will respond within 1 business day.
-          </p>
+          <p className="mt-3 text-white/70">{t("subtitle")}</p>
         </header>
 
         <div className="mt-8 lg:mt-10 grid grid-cols-1 items-start gap-6 md:grid-cols-5">
@@ -207,46 +204,41 @@ export default function ContactSection() {
           <div className="md:col-span-2 space-y-6">
             <InfoCard
               icon={<Mail className="h-5 w-5" />}
-              title="Email"
-              subtitle="Prefer email?"
+              title={t("cards.email.title")}
+              subtitle={t("cards.email.subtitle")}
               content={
                 <a
-                  href="mailto:hello@cfi-solutions.mx"
+                  href="mailto:Htijerina@cloudforgeitsolutions.com"
                   className="underline decoration-white/20 underline-offset-4 hover:decoration-white/40"
                 >
-                  Htijerina@cloudforgeitsolutions.com
+                  {t("cards.email.content")}
                 </a>
               }
             />
             <InfoCard
               icon={<Phone className="h-5 w-5" />}
-              title="Phone / WhatsApp"
-              subtitle="Mon–Fri 9:00–18:00 (GMT-6)"
+              title={t("cards.phone.title")}
+              subtitle={t("cards.phone.subtitle")}
               content={
                 <a
-                  href="tel:+528121234567"
+                  href="tel:+528126463740"
                   className="underline decoration-white/20 underline-offset-4 hover:decoration-white/40"
                 >
-                  +52 81 2646 3740
+                  {t("cards.phone.content")}
                 </a>
               }
             />
             <InfoCard
               icon={<MapPin className="h-5 w-5" />}
-              title="Office"
-              subtitle="Monterrey, Nuevo León, MX"
-              content={
-                <span>
-                  Valle del Mirador 603 Col. Mirador de la silla, Guadalupe,
-                  Nuevo León, 67176, Mexico
-                </span>
-              }
+              title={t("cards.office.title")}
+              subtitle={t("cards.office.subtitle")}
+              content={<span>{t("cards.office.content")}</span>}
             />
             <InfoCard
               icon={<Clock className="h-5 w-5" />}
-              title="Response time"
-              subtitle="We answer fast"
-              content={<span>Within 24 hours on business days</span>}
+              title={t("cards.response.title")}
+              subtitle={t("cards.response.subtitle")}
+              content={<span>{t("cards.response.content")}</span>}
             />
           </div>
 
@@ -262,7 +254,7 @@ export default function ContactSection() {
               >
                 {/* honeypot */}
                 <div className="hidden">
-                  <label htmlFor="company">Company</label>
+                  <label htmlFor="company">{t("form.company")}</label>
                   <input
                     id="company"
                     name="company"
@@ -274,7 +266,7 @@ export default function ContactSection() {
                 </div>
 
                 <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-                  <Field label="Full name" htmlFor="name">
+                  <Field label={t("form.name")} htmlFor="name">
                     <input
                       id="name"
                       name="name"
@@ -295,7 +287,7 @@ export default function ContactSection() {
                     />
                   </Field>
 
-                  <Field label="Work email" htmlFor="email">
+                  <Field label={t("form.email")} htmlFor="email">
                     <input
                       id="email"
                       name="email"
@@ -332,7 +324,7 @@ export default function ContactSection() {
                       onBlur={() => onBlur("org")}
                     />
                   </Field>
-                  <Field label="Phone" htmlFor="phone">
+                  <Field label={t("form.phone")} htmlFor="phone">
                     <input
                       id="phone"
                       name="phone"
@@ -346,7 +338,7 @@ export default function ContactSection() {
                   </Field>
                 </div>
 
-                <Field label="Topic" htmlFor="topic">
+                <Field label={t("form.topic")} htmlFor="topic">
                   <select
                     id="topic"
                     name="topic"
@@ -355,18 +347,14 @@ export default function ContactSection() {
                     onChange={(e) => setValue("topic", e.target.value)}
                     onBlur={() => onBlur("topic")}
                   >
-                    <option value="">Select…</option>
-                    <option>3DEXPERIENCE</option>
-                    <option>DELMIA Apriso</option>
-                    <option>CATIA</option>
-                    <option>ENOVIA</option>
-                    <option>Integrations (Jira, SAP, etc.)</option>
-                    <option>Technical support</option>
-                    <option>Other</option>
+                    <option value="">{t("form.topic")}</option>
+                    {t.raw("topics").map((opt: string) => (
+                      <option key={opt}>{opt}</option>
+                    ))}
                   </select>
                 </Field>
 
-                <Field label="How can we help?" htmlFor="message">
+                <Field label={t("form.message")} htmlFor="message">
                   <textarea
                     id="message"
                     name="message"
@@ -423,8 +411,7 @@ export default function ContactSection() {
                     }
                   />
                   <label htmlFor="consent" className="text-sm text-white/70">
-                    I agree to the processing of my data for the purpose of
-                    responding to this inquiry.
+                    {t("form.consent")}
                   </label>
                 </div>
                 <FieldError
@@ -451,7 +438,7 @@ export default function ContactSection() {
                         status === "loading" ? "animate-pulse" : ""
                       }`}
                     />
-                    {status === "loading" ? "Sending…" : "Send message"}
+                    {status === "loading" ? t("form.sending") : t("form.send")}
                   </button>
                   <a
                     href="#map"
@@ -503,16 +490,16 @@ export default function ContactSection() {
             <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
               <div className="flex items-center gap-3">
                 <Building2 className="h-5 w-5" />
-                <h3 className="text-lg font-semibold">CFI Solutions — HQ</h3>
+                <h3 className="text-lg font-semibold">{t("hq.title")}</h3>
               </div>
               <ul className="mt-4 space-y-2 text-sm text-white/70">
-                <li>Valle del Mirador 603</li>
-                <li>Col. Mirador de la Silla, Guadalupe, Nuevo León</li>
-                <li>67176, Mexico</li>
+                {t.raw("hq.address").map((line: string, i: number) => (
+                  <li key={i}>{line}</li>
+                ))}
               </ul>
               <ul className="mt-4 space-y-2 text-sm text-white/70">
                 <li>
-                  <strong>Email:</strong>{" "}
+                  <strong>{t("hq.emailLabel")}</strong>{" "}
                   <a
                     href="mailto:Htijerina@cloudforgeitsolutions.com"
                     className="text-white/90 hover:text-white transition"
@@ -521,7 +508,7 @@ export default function ContactSection() {
                   </a>
                 </li>
                 <li>
-                  <strong>Phone:</strong>{" "}
+                  <strong>{t("hq.phoneLabel")}</strong>{" "}
                   <a
                     href="tel:+528126463740"
                     className="text-white/90 hover:text-white transition"
@@ -531,27 +518,26 @@ export default function ContactSection() {
                 </li>
               </ul>
               <div className="mt-4 flex flex-wrap gap-2 text-xs text-white/50">
-                <span className="rounded-full border border-white/10 px-2 py-1">
-                  Mon–Fri: 9:00–18:00
-                </span>
-                <span className="rounded-full border border-white/10 px-2 py-1">
-                  GMT-6
-                </span>
+                {t.raw("hq.tags").map((tag: string, i: number) => (
+                  <span
+                    key={i}
+                    className="rounded-full border border-white/10 px-2 py-1"
+                  >
+                    {tag}
+                  </span>
+                ))}
               </div>
             </div>
 
             {/* ☎️ Call to Action */}
             <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-sm text-white/70">
-              <p>
-                Prefer a call? Book a 15-min intro and we’ll discuss your use
-                case, timeline, and architecture options.
-              </p>
+              <p>{t("cta.text")}</p>
               <div className="mt-4">
                 <a
                   href="#"
                   className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-transparent px-4 py-2 text-white/90 transition hover:bg-white/10"
                 >
-                  <Clock className="h-4 w-4" /> Schedule a call
+                  <Clock className="h-4 w-4" /> {t("cta.button")}
                 </a>
               </div>
             </div>

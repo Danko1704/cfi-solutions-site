@@ -1,10 +1,222 @@
 {
   "Hero": {
-    "tagline": "CFI Solutions — Digital Manufacturing",
-    "title": "Empowering Digital Manufacturing",
-    "subtitle": "3DEXPERIENCE & DELMIA Apriso — Consulting & Technical Support",
-    "description": "Implementations, integrations, and technical support focused on results — enhanced performance, full traceability, and reduced deployment times.",
-    "cta_services": "Discover Our Services",
-    "cta_contact": "Talk to an Expert"
+    "tagline": "Digital manufacturing excellence",
+    "title": "Consulting & Integrations",
+    "subtitle": "3DEXPERIENCE & DELMIA Apriso Experts",
+    "description": "We help global manufacturers implement, optimize, and support Dassault Systèmes solutions for digital manufacturing transformation.",
+    "cta_services": "Explore services",
+    "cta_contact": "Get in touch"
+  },
+  "Cases": {
+    "title": "CFI Solutions",
+    "subtitle": "Consulting and integrations for 3DEXPERIENCE & DELMIA Apriso."
+  },
+  "Services": {
+    "tag": "What we do",
+    "title": "Services",
+    "description": "Empowering companies through strategic consulting and technical support for faster 3DEXPERIENCE and DELMIA Apriso adoption.",
+    "cards": {
+      "Implementations": {
+        "title": "Implementations",
+        "desc": "End-to-end design and implementation of 3DEXPERIENCE and DELMIA Apriso with a focus on time-to-value.",
+        "bullets": [
+          "Architecture & Blueprint",
+          "Configuration & Extensions",
+          "Go-Live & Hypercare"
+        ]
+      },
+      "Integrations": {
+        "title": "Integrations",
+        "desc": "Integrations with PLM/ERP/MES systems, shop-floor connectivity, and full traceability.",
+        "bullets": [
+          "SAP / Oracle / REST",
+          "OPC / MQTT / IoT",
+          "Data pipelines & APIs"
+        ]
+      },
+      "Technical Support": {
+        "title": "Technical Support",
+        "desc": "Corrective and adaptive support, performance monitoring, and operational optimization.",
+        "bullets": [
+          "SLA & On-call",
+          "Troubleshooting & Fixes",
+          "Performance Tuning"
+        ]
+      }
+    },
+    "stats": {
+      "exp": ["+15", "Years of experience"],
+      "support": ["24/7", "On-call support"],
+      "speed": ["<90d", "Time-to-value"],
+      "uptime": ["99.9%", "Uptime target"]
+    }
+  },
+  "Industries": {
+    "title": "Industries & Partners",
+    "subtitle": "We collaborate with global leaders across industries to implement cutting-edge digital manufacturing solutions.",
+    "chips": [
+      "Automotive",
+      "Aerospace",
+      "Medical Devices",
+      "Electronics",
+      "Industrial Equipment",
+      "Consumer Goods",
+      "Luxury & Cosmetics",
+      "Agriculture"
+    ]
+  },
+  "Integrations": {
+    "badge": "Ecosystem",
+    "title": "Integrations connecting design, operations and analytics",
+    "subtitle": "We connect your PLM/MES stack with ERP and Analytics for seamless end-to-end traceability.",
+    "search": "Search integration…",
+    "filters": ["All", "MES", "PLM", "Analytics", "DevOps"],
+    "viewDocs": "View docs",
+    "items": {
+      "3DEXPERIENCE": {
+        "blurb": "Central PLM platform for governance, collaboration, and end-to-end traceability.",
+        "tags": ["PLM", "Governance", "Traceability"]
+      },
+      "DELMIA Apriso": {
+        "blurb": "Manufacturing execution, genealogy, and real-time quality control.",
+        "tags": ["MES", "Genealogy", "Quality"]
+      },
+      "CATIA": {
+        "blurb": "3D design and advanced surfacing integrated across the PLM lifecycle.",
+        "tags": ["CAD", "3D", "Surfacing"]
+      },
+      "ENOVIA": {
+        "blurb": "Product collaboration, BOM, change management and compliance in 3DEXPERIENCE.",
+        "tags": ["BOM", "Change", "Compliance"]
+      },
+      "Jira": {
+        "blurb": "Agile work management and full traceability from requirement to deployment.",
+        "tags": ["Scrum", "Boards", "Traceability"]
+      },
+      "SAP": {
+        "blurb": "ERP integration for orders, master data and finance connected to the shop floor.",
+        "tags": ["ERP", "IDoc", "BAPI"]
+      }
+    }
+  },
+  "About": {
+    "title": "About CFI Solutions",
+    "paragraph": "CFI Solutions is a consulting firm specialized in Digital Manufacturing and MES/MOM systems. We optimize operations through DELMIA Apriso and 3DEXPERIENCE, blending technical depth with strategic consulting.",
+    "points": [
+      "End-to-end implementations & integrations",
+      "3DEXPERIENCE data flows & governance",
+      "Technical support & continuous improvement"
+    ],
+    "stats": [
+      ["10+", "Years combined exp."],
+      ["30+", "Projects delivered"],
+      ["24/7", "Support window"]
+    ]
+  },
+  "Contact": {
+    "badge": "Trusted contact",
+    "title": "Let’s build your digital manufacturing roadmap",
+    "subtitle": "Tell us about your 3DEXPERIENCE, DELMIA Apriso, CATIA or integration needs. We will respond within 1 business day.",
+    "cards": {
+      "email": {
+        "title": "Email",
+        "subtitle": "Prefer email?",
+        "content": "Htijerina@cloudforgeitsolutions.com"
+      },
+      "phone": {
+        "title": "Phone / WhatsApp",
+        "subtitle": "Mon–Fri 9:00–18:00 (GMT-6)",
+        "content": "+52 81 2646 3740"
+      },
+      "office": {
+        "title": "Office",
+        "subtitle": "Monterrey, Nuevo León, MX",
+        "content": "Valle del Mirador 603 Col. Mirador de la Silla, Guadalupe, Nuevo León, 67176, Mexico"
+      },
+      "response": {
+        "title": "Response time",
+        "subtitle": "We answer fast",
+        "content": "Within 24 hours on business days"
+      }
+    },
+    "hq": {
+      "title": "CFI Solutions — HQ",
+      "address": [
+        "Valle del Mirador 603",
+        "Col. Mirador de la Silla, Guadalupe, Nuevo León",
+        "67176, Mexico"
+      ],
+      "emailLabel": "Email:",
+      "phoneLabel": "Phone:",
+      "tags": ["Mon–Fri: 9:00–18:00", "GMT-6"]
+    },
+    "cta": {
+      "text": "Prefer a call? Book a 15-min intro and we’ll discuss your use case, timeline, and architecture options.",
+      "button": "Schedule a call"
+    },
+    "form": {
+      "name": "Full name",
+      "email": "Work email",
+      "company": "Company",
+      "phone": "Phone",
+      "topic": "Topic",
+      "message": "How can we help?",
+      "consent": "I agree to the processing of my data for the purpose of responding to this inquiry.",
+      "send": "Send message",
+      "sending": "Sending…",
+      "success": "Message sent successfully. We'll get back to you shortly.",
+      "error": "Please fix the errors and try again."
+    },
+    "topics": [
+      "3DEXPERIENCE",
+      "DELMIA Apriso",
+      "CATIA",
+      "ENOVIA",
+      "Integrations (Jira, SAP, etc.)",
+      "Technical support",
+      "Other"
+    ]
+  },
+  "Tech": {
+    "title": "CFI Solutions",
+    "subtitle": "Consulting and integrations for 3DEXPERIENCE & DELMIA Apriso."
+  },
+  "Navbar": {
+    "links": {
+      "home": "Home",
+      "services": "Services",
+      "industries": "Industries",
+      "about": "About",
+      "contact": "Contact"
+    },
+    "cta": "Get in touch"
+  },
+  "Footer": {
+    "ready": "Ready?",
+    "headline": "Let’s build your digital manufacturing roadmap",
+    "cta_contact": "Get in touch",
+    "cta_call": "Call us",
+    "brand": {
+      "title": "CFI Solutions",
+      "desc": "Consulting and implementation focused on Digital Manufacturing, MES/MOM, and the 3DEXPERIENCE ecosystem — from architecture and integrations to technical support and continuous improvement."
+    },
+    "sitemap": {
+      "title": "Quick Links",
+      "home": "Home",
+      "about": "About",
+      "services": "Services",
+      "contact": "Contact"
+    },
+    "contact": {
+      "title": "Contact",
+      "email": "Htijerina@cloudforgeitsolutions.com",
+      "phone": "+52 81 2646 3740",
+      "address": "Valle del Mirador 603 Col. Mirador de la Silla, Guadalupe, Nuevo León, 67176, Mexico"
+    },
+    "bottom": {
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "rights": "All rights reserved."
+    }
   }
 }

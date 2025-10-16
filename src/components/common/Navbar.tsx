@@ -1,27 +1,27 @@
 "use client";
-
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
-
-const NAV_LINKS = [
-  { label: "Home", href: "/" },
-  { label: "Services", href: "#services" },
-  { label: "Industries", href: "#industries" },
-  { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
-];
+import { useTranslations } from "next-intl";
 
 export default function Navbar() {
+  const t = useTranslations("Navbar");
+  const NAV_LINKS = [
+    { label: t("links.home"), href: "/" },
+    { label: t("links.services"), href: "#services" },
+    { label: t("links.industries"), href: "#industries" },
+    { label: t("links.about"), href: "#about" },
+    { label: t("links.contact"), href: "#contact" },
+  ];
+
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const lastY = useRef(0);
 
-  // efecto sombra / blur
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
@@ -29,7 +29,6 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // headroom (ocultar al bajar, mostrar al subir)
   useEffect(() => {
     const onScrollDir = () => {
       const y = window.scrollY;
@@ -67,7 +66,6 @@ export default function Navbar() {
         ].join(" ")}
       />
       <nav className="relative mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 text-white">
-        {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
           <Image
             src="/images/logo-cfi-negative.png"
@@ -82,7 +80,6 @@ export default function Navbar() {
           </span>
         </Link>
 
-        {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-1">
           {NAV_LINKS.map(({ label, href }) => (
             <NavItem key={href} href={href}>
@@ -93,10 +90,9 @@ export default function Navbar() {
             href="#contact"
             className="ml-2 inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold bg-white text-[#0B1F38] hover:opacity-90 transition"
           >
-            Get in touch
+            {t("cta")}
           </Link>
 
-          {/* Language Switch */}
           <div className="ml-4 flex gap-2 text-sm font-semibold">
             <Link
               href="/en"
@@ -116,7 +112,6 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Burger button (mobile) */}
         <button
           onClick={toggleMenu}
           className="md:hidden p-2 rounded-md hover:bg-white/10 transition"
@@ -126,7 +121,6 @@ export default function Navbar() {
         </button>
       </nav>
 
-      {/* Mobile dropdown */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -152,10 +146,9 @@ export default function Navbar() {
               onClick={() => setMenuOpen(false)}
               className="inline-flex items-center rounded-full px-5 py-2 text-sm font-semibold bg-white text-[#0B1F38] hover:opacity-90 transition"
             >
-              Get in touch
+              {t("cta")}
             </Link>
 
-            {/* Language Switch Mobile */}
             <div className="flex gap-3 text-sm font-semibold">
               <Link
                 href="/en"

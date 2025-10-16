@@ -4,9 +4,11 @@ import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import Image from "next/image";
 import { CheckCircle, Cpu, Wrench } from "lucide-react";
 import { useRef } from "react";
+import { useTranslations } from "next-intl";
 
 export default function About() {
   const ref = useRef<HTMLDivElement>(null);
+  const t = useTranslations("About"); // 👈 agrega esta línea
 
   // Control del scroll para el morph
   const { scrollYProgress } = useScroll({
@@ -100,52 +102,38 @@ export default function About() {
           className="md:w-1/2 space-y-6"
         >
           <h2 className="text-4xl md:text-5xl font-orbitron font-bold">
-            About <span className="text-[#899398]">CFI Solutions</span>
+            {t("title")}
           </h2>
 
           <p className="text-lg text-[#E6E8EA] leading-relaxed">
-            CFI Solutions is a consulting firm specialized in{" "}
-            <span className="text-[#AEB5BA] font-semibold">
-              Digital Manufacturing and MES/MOM systems
-            </span>
-            . We optimize operations through{" "}
-            <span className="text-[#AEB5BA] font-semibold">DELMIA Apriso</span>{" "}
-            and{" "}
-            <span className="text-[#AEB5BA] font-semibold">3DEXPERIENCE</span>,
-            blending technical depth with strategic consulting.
+            {t("paragraph")}
           </p>
 
           <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[#D9DEE2]">
-            <li className="flex items-start gap-2">
-              <CheckCircle className="mt-1 size-5 text-[#AEB5BA]" />
-              <span>End-to-end implementations & integrations</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <Cpu className="mt-1 size-5 text-[#AEB5BA]" />
-              <span>3DEXPERIENCE data flows & governance</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <Wrench className="mt-1 size-5 text-[#AEB5BA]" />
-              <span>Technical support & continuous improvement</span>
-            </li>
+            {t.raw("points").map((text: string, i: number) => (
+              <li key={i} className="flex items-start gap-2">
+                {i === 0 && (
+                  <CheckCircle className="mt-1 size-5 text-[#AEB5BA]" />
+                )}
+                {i === 1 && <Cpu className="mt-1 size-5 text-[#AEB5BA]" />}
+                {i === 2 && <Wrench className="mt-1 size-5 text-[#AEB5BA]" />}
+                <span>{text}</span>
+              </li>
+            ))}
           </ul>
 
           <div className="mt-4 grid grid-cols-3 gap-4">
-            {[
-              { k: "10+", v: "Years combined exp." },
-              { k: "30+", v: "Projects delivered" },
-              { k: "24/7", v: "Support window" },
-            ].map((s, i) => (
+            {t.raw("stats").map(([k, v]: [string, string], i: number) => (
               <motion.div
-                key={s.v}
+                key={v}
                 initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.1 * i }}
                 className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm px-4 py-3 text-center"
               >
-                <div className="text-2xl font-bold">{s.k}</div>
-                <div className="text-xs text-[#C1C7CC]">{s.v}</div>
+                <div className="text-2xl font-bold">{k}</div>
+                <div className="text-xs text-[#C1C7CC]">{v}</div>
               </motion.div>
             ))}
           </div>

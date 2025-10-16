@@ -2,21 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-
-/**
- * Industries.tsx — CFI Solutions
- *
- * Key idea: normalize mixed logo sizes with a fixed-height card and object-contain.
- * - Every logo lives inside a fixed h-24 (mobile) / h-28 (md) container.
- * - Image uses `fill` + `object-contain` so tall/wide logos fit without distortion.
- * - Cards keep consistent padding and rounded corners for a clean, even look.
- * - Marquee is an infinite loop using two identical tracks.
- *
- * How to use:
- * 1) Put your logos in /public/logos/*.svg|png (transparent if possible).
- * 2) Update the `logos` array below to match filenames.
- * 3) Import and render <Industries /> in app/page.tsx
- */
+import { useTranslations } from "next-intl";
 
 const logos = [
   { src: "/logos/AGCO.png", alt: "AGCO" },
@@ -57,8 +43,13 @@ const chips = [
 ];
 
 export default function Industries() {
+  const t = useTranslations("Industries");
+
   return (
-    <section id="industries" className="relative py-20 md:py-24 bg-gradient-to-b from-[#0B1F38] to-[#132944]">
+    <section
+      id="industries"
+      className="relative py-20 md:py-24 bg-gradient-to-b from-[#0B1F38] to-[#132944]"
+    >
       <div className="mx-auto w-full max-w-7xl px-4 md:px-6">
         {/* Heading */}
         <motion.div
@@ -68,11 +59,17 @@ export default function Industries() {
           transition={{ duration: 0.5 }}
           className="text-center mb-10 md:mb-14"
         >
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight" style={{ fontFamily: "Orbitron, sans-serif" }}>
-            Industries & Partners
+          <h2
+            className="text-3xl md:text-4xl font-bold tracking-tight"
+            style={{ fontFamily: "Orbitron, sans-serif" }}
+          >
+            {t("title")}
           </h2>
-          <p className="mt-3 text-sm md:text-base text-white/70 max-w-2xl mx-auto" style={{ fontFamily: "Open Sans, system-ui, sans-serif" }}>
-            We collaborate with global leaders across industries to implement cutting‑edge digital manufacturing solutions.
+          <p
+            className="mt-3 text-sm md:text-base text-white/70 max-w-2xl mx-auto"
+            style={{ fontFamily: "Open Sans, system-ui, sans-serif" }}
+          >
+            {t("subtitle")}
           </p>
         </motion.div>
 
@@ -102,10 +99,13 @@ export default function Industries() {
           viewport={{ once: true, amount: 0.3 }}
           className="mt-10 md:mt-12 flex flex-wrap items-center justify-center gap-3 md:gap-4"
         >
-          {chips.map((c, i) => (
+          {t.raw("chips").map((c: string, i: number) => (
             <motion.li
               key={c}
-              variants={{ hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } }}
+              variants={{
+                hidden: { opacity: 0, y: 8 },
+                show: { opacity: 1, y: 0 },
+              }}
               transition={{ duration: 0.35, delay: i * 0.04 }}
               className="select-none rounded-full border border-[#899398]/30 bg-white/5 px-4 py-2 text-sm md:text-base text-[#E7ECEF] backdrop-blur-sm hover:shadow-[0_0_20px_rgba(137,147,152,0.25)] hover:border-[#899398]/50 transition"
             >
@@ -125,8 +125,12 @@ export default function Industries() {
           animation-iteration-count: infinite;
         }
         @keyframes marquee {
-          from { transform: translateX(0); }
-          to { transform: translateX(-50%); }
+          from {
+            transform: translateX(0);
+          }
+          to {
+            transform: translateX(-50%);
+          }
         }
       `}</style>
     </section>

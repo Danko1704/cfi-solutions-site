@@ -1,10 +1,222 @@
 {
   "Hero": {
-    "tagline": "CFI Solutions — Manufactura Digital",
-    "title": "Impulsando la Manufactura Digital",
-    "subtitle": "3DEXPERIENCE y DELMIA Apriso — Consultoría y Soporte Técnico",
-    "description": "Implementaciones, integraciones y soporte técnico enfocados en resultados — mejor rendimiento, trazabilidad completa y tiempos de despliegue reducidos.",
-    "cta_services": "Descubre Nuestros Servicios",
-    "cta_contact": "Habla con un Experto"
+    "tagline": "Excelencia en manufactura digital",
+    "title": "Consultoría e Integraciones",
+    "subtitle": "Expertos en 3DEXPERIENCE y DELMIA Apriso",
+    "description": "Ayudamos a fabricantes globales a implementar, optimizar y dar soporte a soluciones de Dassault Systèmes para su transformación digital.",
+    "cta_services": "Ver servicios",
+    "cta_contact": "Contáctanos"
+  },
+  "Cases": {
+    "title": "CFI Solutions",
+    "subtitle": "Consultoría e integraciones 3DEXPERIENCE y DELMIA Apriso."
+  },
+  "Services": {
+    "tag": "Qué hacemos",
+    "title": "Servicios",
+    "description": "Impulsamos a las empresas mediante consultoría estratégica y soporte técnico para una adopción más rápida de 3DEXPERIENCE y DELMIA Apriso.",
+    "cards": {
+      "Implementations": {
+        "title": "Implementaciones",
+        "desc": "Diseño e implementación integral de 3DEXPERIENCE y DELMIA Apriso enfocado en acelerar el valor.",
+        "bullets": [
+          "Arquitectura y Blueprint",
+          "Configuración y Extensiones",
+          "Go-Live y Hypercare"
+        ]
+      },
+      "Integrations": {
+        "title": "Integraciones",
+        "desc": "Integraciones con sistemas PLM/ERP/MES, conectividad en planta y trazabilidad completa.",
+        "bullets": [
+          "SAP / Oracle / REST",
+          "OPC / MQTT / IoT",
+          "Pipelines de datos y APIs"
+        ]
+      },
+      "Technical Support": {
+        "title": "Soporte Técnico",
+        "desc": "Soporte correctivo y adaptativo, monitoreo de desempeño y optimización operativa.",
+        "bullets": [
+          "SLA y guardias",
+          "Resolución de incidencias",
+          "Ajuste de rendimiento"
+        ]
+      }
+    },
+    "stats": {
+      "exp": ["+15", "Años de experiencia"],
+      "support": ["24/7", "Soporte en guardia"],
+      "speed": ["<90d", "Tiempo de implementación"],
+      "uptime": ["99.9%", "Disponibilidad objetivo"]
+    }
+  },
+  "Industries": {
+    "title": "Industrias y Socios",
+    "subtitle": "Colaboramos con líderes globales de diversas industrias para implementar soluciones avanzadas de manufactura digital.",
+    "chips": [
+      "Automotriz",
+      "Aeroespacial",
+      "Dispositivos Médicos",
+      "Electrónica",
+      "Equipos Industriales",
+      "Bienes de Consumo",
+      "Lujo y Cosmética",
+      "Agricultura"
+    ]
+  },
+  "Integrations": {
+    "badge": "Ecosistema",
+    "title": "Integraciones que conectan diseño, operaciones y analítica",
+    "subtitle": "Conectamos tu stack PLM/MES con ERP y Analytics para lograr trazabilidad completa de extremo a extremo.",
+    "search": "Buscar integración…",
+    "filters": ["Todas", "MES", "PLM", "Analítica", "DevOps"],
+    "viewDocs": "Ver documentación",
+    "items": {
+      "3DEXPERIENCE": {
+        "blurb": "Plataforma PLM central para gobernanza, colaboración y trazabilidad integral.",
+        "tags": ["PLM", "Gobernanza", "Trazabilidad"]
+      },
+      "DELMIA Apriso": {
+        "blurb": "Ejecución de manufactura, genealogía y control de calidad en tiempo real.",
+        "tags": ["MES", "Genealogía", "Calidad"]
+      },
+      "CATIA": {
+        "blurb": "Diseño 3D y modelado avanzado integrados en todo el ciclo de vida PLM.",
+        "tags": ["CAD", "3D", "Superficies"]
+      },
+      "ENOVIA": {
+        "blurb": "Colaboración de producto, BOM, gestión de cambios y cumplimiento en 3DEXPERIENCE.",
+        "tags": ["BOM", "Cambios", "Cumplimiento"]
+      },
+      "Jira": {
+        "blurb": "Gestión ágil del trabajo y trazabilidad completa desde el requerimiento hasta el despliegue.",
+        "tags": ["Scrum", "Tableros", "Trazabilidad"]
+      },
+      "SAP": {
+        "blurb": "Integración ERP para órdenes, datos maestros y finanzas conectadas al piso de producción.",
+        "tags": ["ERP", "IDoc", "BAPI"]
+      }
+    }
+  },
+  "About": {
+    "title": "Acerca de CFI Solutions",
+    "paragraph": "CFI Solutions es una firma de consultoría especializada en Manufactura Digital y sistemas MES/MOM. Optimizamos operaciones mediante DELMIA Apriso y 3DEXPERIENCE, combinando profundidad técnica con consultoría estratégica.",
+    "points": [
+      "Implementaciones e integraciones de punta a punta",
+      "Flujos y gobierno de datos en 3DEXPERIENCE",
+      "Soporte técnico y mejora continua"
+    ],
+    "stats": [
+      ["10+", "Años de experiencia combinada"],
+      ["30+", "Proyectos entregados"],
+      ["24/7", "Ventana de soporte"]
+    ]
+  },
+  "Contact": {
+    "badge": "Contacto confiable",
+    "title": "Construyamos tu hoja de ruta de manufactura digital",
+    "subtitle": "Cuéntanos sobre tus necesidades de 3DEXPERIENCE, DELMIA Apriso, CATIA o integraciones. Respondemos en menos de 1 día hábil.",
+    "cards": {
+      "email": {
+        "title": "Correo electrónico",
+        "subtitle": "¿Prefieres escribirnos?",
+        "content": "Htijerina@cloudforgeitsolutions.com"
+      },
+      "phone": {
+        "title": "Teléfono / WhatsApp",
+        "subtitle": "Lun–Vie 9:00–18:00 (GMT-6)",
+        "content": "+52 81 2646 3740"
+      },
+      "office": {
+        "title": "Oficina",
+        "subtitle": "Monterrey, Nuevo León, MX",
+        "content": "Valle del Mirador 603 Col. Mirador de la Silla, Guadalupe, Nuevo León, 67176, México"
+      },
+      "response": {
+        "title": "Tiempo de respuesta",
+        "subtitle": "Respondemos rápido",
+        "content": "Dentro de 24 horas en días hábiles"
+      }
+    },
+    "hq": {
+      "title": "CFI Solutions — Oficina Central",
+      "address": [
+        "Valle del Mirador 603",
+        "Col. Mirador de la Silla, Guadalupe, Nuevo León",
+        "67176, México"
+      ],
+      "emailLabel": "Correo:",
+      "phoneLabel": "Teléfono:",
+      "tags": ["Lun–Vie: 9:00–18:00", "GMT-6"]
+    },
+    "cta": {
+      "text": "¿Prefieres una llamada? Agenda una introducción de 15 minutos y hablaremos sobre tu caso, tiempos y opciones de arquitectura.",
+      "button": "Agendar llamada"
+    },
+    "form": {
+      "name": "Nombre completo",
+      "email": "Correo de trabajo",
+      "company": "Empresa",
+      "phone": "Teléfono",
+      "topic": "Tema",
+      "message": "¿Cómo podemos ayudarte?",
+      "consent": "Acepto el tratamiento de mis datos para responder esta consulta.",
+      "send": "Enviar mensaje",
+      "sending": "Enviando…",
+      "success": "Mensaje enviado con éxito. Te contactaremos pronto.",
+      "error": "Por favor corrige los errores e inténtalo nuevamente."
+    },
+    "topics": [
+      "3DEXPERIENCE",
+      "DELMIA Apriso",
+      "CATIA",
+      "ENOVIA",
+      "Integraciones (Jira, SAP, etc.)",
+      "Soporte técnico",
+      "Otro"
+    ]
+  },
+  "Tech": {
+    "title": "CFI Solutions",
+    "subtitle": "Consultoría e integraciones 3DEXPERIENCE y DELMIA Apriso."
+  },
+  "Navbar": {
+    "links": {
+      "home": "Inicio",
+      "services": "Servicios",
+      "industries": "Industrias",
+      "about": "Acerca de",
+      "contact": "Contacto"
+    },
+    "cta": "Contáctanos"
+  },
+  "Footer": {
+    "ready": "¿Listo?",
+    "headline": "Construyamos tu hoja de ruta de manufactura digital",
+    "cta_contact": "Contáctanos",
+    "cta_call": "Llámanos",
+    "brand": {
+      "title": "CFI Solutions",
+      "desc": "Consultoría e implementación enfocada en Manufactura Digital, MES/MOM y el ecosistema 3DEXPERIENCE: desde arquitectura e integraciones hasta soporte técnico y mejora continua."
+    },
+    "sitemap": {
+      "title": "Enlaces rápidos",
+      "home": "Inicio",
+      "about": "Acerca de",
+      "services": "Servicios",
+      "contact": "Contacto"
+    },
+    "contact": {
+      "title": "Contacto",
+      "email": "Htijerina@cloudforgeitsolutions.com",
+      "phone": "+52 81 2646 3740",
+      "address": "Valle del Mirador 603 Col. Mirador de la Silla, Guadalupe, Nuevo León, 67176, México"
+    },
+    "bottom": {
+      "privacy": "Privacidad",
+      "terms": "Términos",
+      "rights": "Todos los derechos reservados."
+    }
   }
 }

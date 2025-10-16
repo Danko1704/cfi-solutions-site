@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import React, { useRef } from "react";
+import { useTranslations } from "next-intl";
+import Image from "next/image";
 
 /* ---------- Types ---------- */
 type ServiceItem = {
@@ -11,38 +13,30 @@ type ServiceItem = {
   bullets: string[];
 };
 
-/* ---------- Data ---------- */
-const services: ServiceItem[] = [
-  {
-    image: "/images/services/implementations.jpg",
-    title: "Implementations",
-    desc: "End-to-end design and implementation of 3DEXPERIENCE and DELMIA Apriso with a focus on time-to-value.",
-    bullets: [
-      "Arquitectura & Blueprint",
-      "Configuración & Extensiones",
-      "Go-Live & Hypercare",
-    ],
-  },
-  {
-    image: "/images/services/integrations.jpg",
-    title: "Integrations",
-    desc: "Integrations with PLM/ERP/MES systems, shop-floor connectivity, and full traceability.",
-    bullets: [
-      "SAP / Oracle / REST",
-      "OPC / MQTT / IoT",
-      "Data pipelines & APIs",
-    ],
-  },
-  {
-    image: "/images/services/technical-support.jpg",
-    title: "Technical Support",
-    desc: "Corrective and adaptive support, performance monitoring, and operational optimization.",
-    bullets: ["SLA & On-call", "Troubleshooting & Fixes", "Performance Tuning"],
-  },
-];
-
 /* ---------- Component ---------- */
 export default function Services() {
+  const t = useTranslations("Services");
+  /* ---------- Data ---------- */
+  const services: ServiceItem[] = [
+    {
+      image: "/images/services/implementations.jpg",
+      title: t("cards.Implementations.title"),
+      desc: t("cards.Implementations.desc"),
+      bullets: t.raw("cards.Implementations.bullets") as string[],
+    },
+    {
+      image: "/images/services/integrations.jpg",
+      title: t("cards.Integrations.title"),
+      desc: t("cards.Integrations.desc"),
+      bullets: t.raw("cards.Integrations.bullets") as string[],
+    },
+    {
+      image: "/images/services/technical-support.jpg",
+      title: t("cards.Technical Support.title"),
+      desc: t("cards.Technical Support.desc"),
+      bullets: t.raw("cards.Technical Support.bullets") as string[],
+    },
+  ];
   return (
     <section
       id="services"
@@ -59,15 +53,12 @@ export default function Services() {
           className="mx-auto mb-14 max-w-3xl text-center"
         >
           <span className="inline-block rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-white/75 backdrop-blur">
-            What we do
+            {t("tag")}
           </span>
           <h2 className="mt-4 text-3xl font-[800] leading-tight sm:text-4xl md:text-5xl">
-            Services
+            {t("title")}
           </h2>
-          <p className="mt-3 text-white/85">
-            Empowering companies through strategic consulting and technical
-            support for faster 3DEXPERIENCE and DELMIA Apriso adoption.
-          </p>
+          <p className="mt-3 text-white/85">{t("description")}</p>
         </motion.div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -77,18 +68,15 @@ export default function Services() {
         </div>
 
         <div className="mt-14 grid grid-cols-2 gap-6 sm:grid-cols-4">
-          {[
-            ["+15", "Years of experience"],
-            ["24/7", "On-call support"],
-            ["<90d", "Time-to-value"],
-            ["99.9%", "Uptime objetivo"],
-          ].map(([k, v]) => (
+          {Object.entries(
+            t.raw("stats") as Record<string, [string, string]>
+          ).map(([key, [num, label]]) => (
             <div
-              key={v}
+              key={key}
               className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center backdrop-blur-sm"
             >
-              <div className="text-2xl font-extrabold">{k}</div>
-              <div className="text-xs text-white/80">{v}</div>
+              <div className="text-2xl font-extrabold">{num}</div>
+              <div className="text-xs text-white/80">{label}</div>
             </div>
           ))}
         </div>
@@ -143,10 +131,11 @@ function ServiceCard({
 
       {/* Imagen reemplazando el ícono */}
       <div className="relative mb-4 overflow-hidden rounded-xl border border-white/10">
-        <img
+        <Image
           src={service.image}
           alt={service.title}
-          loading="lazy"
+          width={400}
+          height={180}
           className="h-32 w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
         {/* Overlay azul translúcido */}
