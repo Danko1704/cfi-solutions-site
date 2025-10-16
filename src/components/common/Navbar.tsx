@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X } from "lucide-react";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
@@ -16,9 +18,10 @@ const NAV_LINKS = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const lastY = useRef(0);
 
-  // sombra/blur leve
+  // efecto sombra / blur
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
@@ -26,7 +29,7 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Ocultar por dirección (headroom simple)
+  // headroom (ocultar al bajar, mostrar al subir)
   useEffect(() => {
     const onScrollDir = () => {
       const y = window.scrollY;
@@ -34,9 +37,9 @@ export default function Navbar() {
       const goingUp = y < lastY.current - 2;
 
       let nextHidden = hidden;
-      if (y <= 80) nextHidden = false;       // visible arriba
-      else if (goingDown) nextHidden = true; // bajar => oculto
-      else if (goingUp) nextHidden = false;  // subir => muestro
+      if (y <= 80) nextHidden = false;
+      else if (goingDown) nextHidden = true;
+      else if (goingUp) nextHidden = false;
 
       lastY.current = y;
       if (nextHidden !== hidden) setHidden(nextHidden);
@@ -45,6 +48,8 @@ export default function Navbar() {
     window.addEventListener("scroll", onScrollDir, { passive: true });
     return () => window.removeEventListener("scroll", onScrollDir);
   }, [hidden]);
+
+  const toggleMenu = () => setMenuOpen((prev) => !prev);
 
   return (
     <header
@@ -62,6 +67,7 @@ export default function Navbar() {
         ].join(" ")}
       />
       <nav className="relative mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 text-white">
+        {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
           <Image
             src="/images/logo-cfi-negative.png"
@@ -71,12 +77,17 @@ export default function Navbar() {
             priority
             className="object-contain select-none pointer-events-none"
           />
-          <span className="ml-2 text-xs text-[#899398]">Consulting & Tech Support</span>
+          <span className="ml-2 text-xs text-[#899398]">
+            Consulting & Tech Support
+          </span>
         </Link>
 
+        {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-1">
           {NAV_LINKS.map(({ label, href }) => (
-            <NavItem key={href} href={href}>{label}</NavItem>
+            <NavItem key={href} href={href}>
+              {label}
+            </NavItem>
           ))}
           <Link
             href="#contact"
@@ -84,14 +95,98 @@ export default function Navbar() {
           >
             Get in touch
           </Link>
+
+          {/* Language Switch */}
+          <div className="ml-4 flex gap-2 text-sm font-semibold">
+            <Link
+              href="/en"
+              locale="en"
+              className="hover:text-white text-[#899398]"
+            >
+              EN
+            </Link>
+            <span className="text-[#899398]">|</span>
+            <Link
+              href="/es"
+              locale="es"
+              className="hover:text-white text-[#899398]"
+            >
+              ES
+            </Link>
+          </div>
         </div>
-        <div className="md:hidden" />
+
+        {/* Burger button (mobile) */}
+        <button
+          onClick={toggleMenu}
+          className="md:hidden p-2 rounded-md hover:bg-white/10 transition"
+          aria-label="Toggle Menu"
+        >
+          {menuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
       </nav>
+
+      {/* Mobile dropdown */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.25 }}
+            className="md:hidden bg-black/95 text-white flex flex-col items-center gap-6 py-6 border-t border-white/10 backdrop-blur-md"
+          >
+            {NAV_LINKS.map(({ label, href }) => (
+              <Link
+                key={href}
+                href={href}
+                onClick={() => setMenuOpen(false)}
+                className="text-lg font-medium hover:text-[#899398] transition"
+              >
+                {label}
+              </Link>
+            ))}
+
+            <Link
+              href="#contact"
+              onClick={() => setMenuOpen(false)}
+              className="inline-flex items-center rounded-full px-5 py-2 text-sm font-semibold bg-white text-[#0B1F38] hover:opacity-90 transition"
+            >
+              Get in touch
+            </Link>
+
+            {/* Language Switch Mobile */}
+            <div className="flex gap-3 text-sm font-semibold">
+              <Link
+                href="/en"
+                locale="en"
+                className="hover:text-white text-[#899398]"
+              >
+                EN
+              </Link>
+              <span className="text-[#899398]">|</span>
+              <Link
+                href="/es"
+                locale="es"
+                className="hover:text-white text-[#899398]"
+              >
+                ES
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
 
-function NavItem({ href, children }: { href: string; children: React.ReactNode }) {
+function NavItem({
+  href,
+  children,
+}: {
+  href: string;
+  children: React.ReactNode;
+}) {
   const pathname = usePathname();
   const isHashLink = href.startsWith("#");
   const isActive = !isHashLink && href === pathname;

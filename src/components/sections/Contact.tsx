@@ -82,6 +82,7 @@ export default function ContactSection() {
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    const form = e.currentTarget;
     setStatus("loading");
     setStatusMsg("");
 
@@ -137,6 +138,7 @@ export default function ContactSection() {
 
       setStatus("success");
       setStatusMsg("Message sent successfully. We'll get back to you shortly.");
+      form.reset();
       (e.currentTarget as HTMLFormElement).reset();
       setValues({
         name: "",

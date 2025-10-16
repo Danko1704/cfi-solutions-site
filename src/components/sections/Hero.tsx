@@ -1,15 +1,13 @@
-// /sections/Hero.tsx
-// Hero section with video background. Brand colors: #0B1F38 / #899398 / #FFFFFF
-// Fonts: Orbitron (titles) + Open Sans (body). Comments in English.
-
 "use client";
 
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 
 export default function Hero() {
   const [reduceMotion, setReduceMotion] = useState(false);
+  const t = useTranslations("Hero");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -23,10 +21,10 @@ export default function Hero() {
 
   return (
     <section
-      id="hero" // IMPORTANT: used by Navbar's IntersectionObserver
+      id="hero"
       className="relative isolate min-h-[92vh] w-full overflow-hidden bg-[#0B1F38]"
     >
-      {/* Background video (hidden if prefers-reduced-motion) */}
+      {/* Background video */}
       {!reduceMotion && (
         <div aria-hidden className="pointer-events-none absolute inset-0">
           <video
@@ -44,22 +42,12 @@ export default function Hero() {
         </div>
       )}
 
-      {/* Brand tint/gradient overlay */}
+      {/* Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-[#0B1F38]/60 to-black/80" />
-
-      {/* Subtle noise texture (no external image) */}
-      <div
-        aria-hidden
-        className="absolute inset-0 opacity-20 mix-blend-overlay"
-        style={{
-          backgroundImage:
-            "radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px)",
-          backgroundSize: "3px 3px",
-        }}
-      />
 
       {/* Content */}
       <div className="relative z-10 mx-auto flex min-h-[92vh] max-w-7xl flex-col items-start justify-center px-6 sm:px-8">
+        {/* Tagline */}
         <motion.span
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -67,9 +55,10 @@ export default function Hero() {
           className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs tracking-wider text-white/80 backdrop-blur"
         >
           <span className="h-2 w-2 rounded-full bg-white/70" />
-          CFI Solutions — Digital Manufacturing
+          {t("tagline")}
         </motion.span>
 
+        {/* Title */}
         <motion.h1
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -82,13 +71,14 @@ export default function Hero() {
           }}
         >
           <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
-            Empowering Digital Manufacturing
+            {t("title")}
           </span>
           <span className="mt-2 block text-xl text-[#899398] sm:text-2xl md:text-3xl">
-            3DEXPERIENCE & DELMIA Apriso — Consulting & Technical Support
+            {t("subtitle")}
           </span>
         </motion.h1>
 
+        {/* Description */}
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -96,9 +86,7 @@ export default function Hero() {
           className="mt-4 max-w-2xl text-base leading-relaxed text-white/85 md:text-lg"
           style={{ fontFamily: "Open Sans, ui-sans-serif, system-ui" }}
         >
-          Implementations, integrations, and technical support focused on
-          results — enhanced performance, full traceability, and reduced
-          deployment times.
+          {t("description")}
         </motion.p>
 
         {/* CTAs */}
@@ -112,7 +100,7 @@ export default function Hero() {
             href="#services"
             className="group rounded-2xl bg-white/90 px-5 py-3 text-sm font-semibold text-[#0B1F38] shadow-lg backdrop-blur transition hover:bg-white"
           >
-            Discover Our Services
+            {t("cta_services")}
             <span className="ml-2 inline-block transition group-hover:translate-x-0.5">
               →
             </span>
@@ -122,12 +110,12 @@ export default function Hero() {
             href="#contact"
             className="rounded-2xl border border-white/20 bg-white/5 px-5 py-3 text-sm font-semibold text-white/90 backdrop-blur transition hover:bg-white/10"
           >
-            Talk to an Expert
+            {t("cta_contact")}
           </Link>
         </motion.div>
       </div>
 
-      {/* Smooth bottom gradient into next section */}
+      {/* Bottom gradient */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#0B1F38] to-transparent" />
     </section>
   );
