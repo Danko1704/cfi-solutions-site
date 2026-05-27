@@ -9,7 +9,6 @@ const logos = [
   { src: "/logos/BAT.png", alt: "BAT" },
   { src: "/logos/BombardierLogo_edited.png", alt: "Bombardier" },
   { src: "/logos/Corning.png", alt: "Corning" },
-  { src: "/logos/CortevaLogo_edited_edited.png", alt: "Corteva" },
   { src: "/logos/CSL.webp", alt: "CSL" },
   { src: "/logos/Envision.png", alt: "Envision" },
   { src: "/logos/EssilorLogo_edited_edited.png", alt: "EssilorLuxottica" },
